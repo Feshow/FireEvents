@@ -1,6 +1,56 @@
-<div *ngFor="let evento of eventos">
-    <p><b>Tema: </b>{{evento.tema}}</p>
-    <p><b>Local: </b>{{evento.endereco}}</p>
+<div class="container-fluid">
+    <div class="col">
+        <h2>Eventos</h2>
+        <hr>
+        <div class="form-inline">
+            <div class="row g-3 align-items-center">
+                <div class="input-group input-group-sm mb-3">
+                    <label class="input-group-text">Filtro</label>
+                    <input type="text" class="form-control" placeholder="buscar" [(ngModel)]="listFilter">
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped table-bordered">
+            <thead class=" table-dark">
+                <tr>
+                    <th>
+                        <button class="btn btn-outline-light btn-sm" (click)="showImageToggle()">{{showImg ? 'Ocultar' :
+                            'Exibir'}}</button>
+                    </th>
+                    <th>#</th>
+                    <th>Tema</th>
+                    <th>Local</th>
+                    <th>Data</th>
+                    <th>Qtd. Pessoas</th>
+                    <th>Lote</th>
+                    <th>Opções</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="filteredEventsList || filteredEventsList.length">
+                <tr *ngFor="let evento of filteredEventsList">
+                    <td>
+                        <img *ngIf="showImg" src="/assets/{{evento.imagemUrl}}" [style.width.px]="widthImg"
+                            [style.margin.px]="marginImg" alt="">
+                    </td>
+                    <td>{{evento.id}}</td>
+                    <td>{{evento.tema}}</td>
+                    <td>{{evento.endereco}}</td>
+                    <td>{{evento.dataEvento | date:'longDate'}}</td>
+                    <td>{{evento.qtdPessoas}}</td>
+                    <td>{{evento.lote}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm m-1">Editar</button>
+                        <button type="button" class="btn btn-danger btn-sm">Excluir</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot *ngIf="!filteredEventsList || !filteredEventsList.length">
+                <tr>
+                    <td colspan="8" class="text-center">
+                        <h4>Nenhum evento encontrado!</h4>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 </div>
-
-
