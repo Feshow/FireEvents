@@ -3,17 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireEventsAPI", "FireEventsAPI\FireEventsAPI.csproj", "{E3CEF43C-7C27-469B-9C28-CCB06299959A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireEventsAPI", "FireEventsAPI\FireEventsAPI.csproj", "{E3CEF43C-7C27-469B-9C28-CCB06299959A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{49DDBC38-AC6A-478A-BCF5-97E4D3D16DD5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{8BC6C333-5903-406C-B30D-8AD72500E0BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireEvents.Data", "FireEvents.Data\FireEvents.Data.csproj", "{8AECDD2B-15B2-4522-BDEC-77BE04B34BD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireEvents.Data", "FireEvents.Data\FireEvents.Data.csproj", "{8AECDD2B-15B2-4522-BDEC-77BE04B34BD6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{C1D69A90-391A-4B2D-9AD6-43BC258E2CF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireEvents.Domain", "FireEvents.Domain\FireEvents.Domain.csproj", "{58A8AE8B-40BA-4417-B72C-D89BE7186EEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireEvents.Domain", "FireEvents.Domain\FireEvents.Domain.csproj", "{58A8AE8B-40BA-4417-B72C-D89BE7186EEE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{5E434A7F-0D58-4923-B343-71BAB98E21CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireEvents.Application", "FireEvents.Application\FireEvents.Application.csproj", "{A0B145A6-7381-4F56-8CCC-44564F965B52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,10 @@ Global
 		{58A8AE8B-40BA-4417-B72C-D89BE7186EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58A8AE8B-40BA-4417-B72C-D89BE7186EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58A8AE8B-40BA-4417-B72C-D89BE7186EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0B145A6-7381-4F56-8CCC-44564F965B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0B145A6-7381-4F56-8CCC-44564F965B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0B145A6-7381-4F56-8CCC-44564F965B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0B145A6-7381-4F56-8CCC-44564F965B52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +49,7 @@ Global
 		{8BC6C333-5903-406C-B30D-8AD72500E0BC} = {49DDBC38-AC6A-478A-BCF5-97E4D3D16DD5}
 		{8AECDD2B-15B2-4522-BDEC-77BE04B34BD6} = {8BC6C333-5903-406C-B30D-8AD72500E0BC}
 		{58A8AE8B-40BA-4417-B72C-D89BE7186EEE} = {C1D69A90-391A-4B2D-9AD6-43BC258E2CF9}
+		{A0B145A6-7381-4F56-8CCC-44564F965B52} = {5E434A7F-0D58-4923-B343-71BAB98E21CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3759D55-D3F1-4BAF-9C94-EAC5D8317421}

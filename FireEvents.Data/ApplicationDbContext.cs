@@ -9,20 +9,19 @@ namespace FireEvents.Data
         {
         }
         public DbSet<Evento> Eventos { get; set; }
+        public DbSet<Palestrante> Palestrantes { get; set; }
+        public DbSet<PalestranteEvento> PalestrantesEventos { get; set; }
+        public DbSet<Lote> Lotes { get; set; }
+        public DbSet<RedeSocial> RedesSociais { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Evento>().HasData(
-        //        new Evento()
-        //        {
-        //            Id = 1,
-        //            Tema = "Evento teste",
-        //            Endereco = "São Paulo",
-        //            DataEvento = DateTime.Now,
-        //            QtdPessoas = 100,
-        //            Lote = 1,
-        //            ImagemUrl = "imagem.png"
-        //        });
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //Associação de entidades N-N
+            modelBuilder.Entity<PalestranteEvento>().HasKey(p => new 
+            {
+                p.EventoId,
+                p.PalestranteId
+            });
+        }
     }
 }
