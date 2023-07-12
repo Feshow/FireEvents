@@ -1,7 +1,7 @@
 ﻿using FireEvents.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FireEvents.Data
+namespace FireEvents.Data.Contexts
 {
     public class ApplicationDbContext : DbContext
     {
@@ -17,7 +17,7 @@ namespace FireEvents.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Associação de entidades N-N
-            modelBuilder.Entity<PalestranteEvento>().HasKey(p => new 
+            modelBuilder.Entity<PalestranteEvento>().HasKey(p => new
             {
                 p.EventoId,
                 p.PalestranteId

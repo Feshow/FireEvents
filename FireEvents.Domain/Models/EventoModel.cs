@@ -1,4 +1,4 @@
-﻿namespace FireEventsAPI.Models.Evento
+﻿namespace FireEvents.Domain.Models
 {
     public class EventoModel
     {
