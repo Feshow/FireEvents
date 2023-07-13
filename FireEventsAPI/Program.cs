@@ -1,6 +1,8 @@
 using FireEvents.Data;
 using FireEvents.Data.Contexts;
 using FireEvents.Domain.Interfaces.IRepository;
+using FireEvents.Domain.Interfaces.IServices;
+using FireEvents.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(context =>
 });
 builder.Services.AddResponseCaching(); //Enable caching for API requests
 builder.Services.AddScoped<IEventoRepository, EventoRepository>();
+builder.Services.AddScoped<IEventoService, EventoService>();
+
 
 builder.Services.AddControllers();
 builder.Services.AddCors();

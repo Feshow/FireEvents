@@ -1,5 +1,5 @@
 ﻿using FireEvents.Domain.Entities;
-using FireEvents.Domain.Interfaces.IRepository;
+using FireEvents.Domain.Interfaces.IServices;
 using FireEvents.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -10,26 +10,26 @@ namespace FireEventsAPI.Controllers
     [ApiController]
     public class EventoController : ControllerBase
     {
-        private readonly IEventoRepository _dbEvento;
+        private readonly IEventoService _eventoService;
         protected ResponseApi _response;
-        public EventoController(IEventoRepository eventoRepository)
+        public EventoController(IEventoService eventoRepository)
         {
-            _dbEvento = eventoRepository;
+            _eventoService = eventoRepository;
             _response = new();
         }
 
-        [HttpGet(Name = "GetAllEventos")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ResponseApi>> GetAllEventos(bool includePalestrantes)
+        public async Task<ActionResult<ResponseApi>> GetAllEventos()
         {
             try
             {
-                IEnumerable<Evento> eventoList;
-                eventoList = await _dbEvento.GetAllEventosAsync(includePalestrantes);
+                IEnumerable<Evento>? eventoList;
+                eventoList = await _eventoService.ObterEventosAsync();
 
                 _response.Result = eventoList;
                 _response.StatusCode = HttpStatusCode.OK;
@@ -44,13 +44,13 @@ namespace FireEventsAPI.Controllers
             return Ok(_response);
         }
 
-        [HttpGet("{id:int}", Name = "GetEventoById")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ResponseApi>> GetEventoById(int id, bool includePalestrantes)
+        public async Task<ActionResult<ResponseApi>> GetEventoById(int id)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace FireEventsAPI.Controllers
                     return BadRequest(_response);
                 }
 
-                var response = await _dbEvento.GetEventoByIdAsync(id, includePalestrantes);
+                var response = await _eventoService.ObterEventoPorIdAsync(id);
 
                 if (response == null)
                 {
@@ -82,13 +82,13 @@ namespace FireEventsAPI.Controllers
             return _response;
         }
 
-        [HttpGet("{id:int}", Name = "GetEventoByTema")]
+        [HttpGet("{tema}/tema")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ResponseApi>> GetEventoByTema(string tema, bool includePalestrantes)
+        public async Task<ActionResult<ResponseApi>> GetEventoByTema(string tema)
         {
             try
             {
@@ -99,7 +99,7 @@ namespace FireEventsAPI.Controllers
                     return BadRequest(_response);
                 }
 
-                var response = await _dbEvento.GetEventosByTemaAsync(tema, includePalestrantes);
+                var response = await _eventoService.ObterEventoPorTemaAsync(tema);
 
                 if (response == null)
                 {
@@ -122,24 +122,45 @@ namespace FireEventsAPI.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ResponseApi>> Create([FromBody] Evento modelCreator)
+        public async Task<ActionResult<ResponseApi>> CreateEvento([FromBody] Evento modelEvento)
         {
             try
             {
-                if (modelCreator == null)
+                var response = await _eventoService.AddEvento(modelEvento);
+
+                if (response == null)
                 {
                     _response.StatusCode = HttpStatusCode.NotFound;
                     _response.IsSuccess = false;
                     return NotFound();
                 }
 
-                _response.Result = modelCreator;
-                _response.StatusCode = HttpStatusCode.Created;
-                return CreatedAtRoute("Get by Id", new { id = modelCreator.Id }, _response); //After create the object, it gerates the route where we can acesss the objet by id (Invoke GetById);
+                _response.Result = response;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ResponseApi>>UpdateEvento([FromBody] Evento modelEvento)
+        {
+            try
+            {
+                var response = await _eventoService.UpdateEvento(modelEvento);
+
+                _response.StatusCode = HttpStatusCode.NoContent;
+                _response.IsSuccess = true;
+                return Ok(_response);
+
             }
             catch (Exception ex)
             {
