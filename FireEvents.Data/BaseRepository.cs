@@ -15,26 +15,26 @@ namespace FireEvents.Data
             this.dbSet = _db.Set<T>();
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<bool> AddAsync(T entity)
         {
             await dbSet.AddAsync(entity);
-            await SaveAsync();
+            return await SaveAsync();
         }
-        public async Task Update(T entity)
+        public async Task<bool> Update(T entity)
         {
             dbSet.Update(entity);
-            await SaveAsync();
+            return await SaveAsync();
         }
-        public async Task DeleteAsync(T entity)
+        public async Task<bool> DeleteAsync(T entity)
         {
             dbSet.Remove(entity);
-            await SaveAsync();
+            return await SaveAsync();
         }
 
-        public async Task DeleteRangeAsync(T[] entity)
+        public async Task<bool> DeleteRangeAsync(T[] entity)
         {
             dbSet.RemoveRange(entity);
-            await SaveAsync();
+            return await SaveAsync();
         }
 
         public async Task<bool> SaveAsync()

@@ -13,10 +13,13 @@ namespace FireEvents.Data
             _db = db;
         }
 
-        public async Task<Palestrante[]> GetAllPalestrantesAsync(bool includePalestrantes)
+        public async Task<Palestrante[]> GetAllPalestrantesAsync(bool includePalestrantes, bool tracked)
         {
             IQueryable<Palestrante> query = _db.Palestrantes
                 .Include(p => p.RedesSociais);
+
+            if (!tracked)
+                query = query.AsNoTracking();
 
             if (includePalestrantes)
             {
@@ -28,10 +31,13 @@ namespace FireEvents.Data
             query.OrderBy(p => p.Id);
             return await query.ToArrayAsync();
         }
-        public async Task<Palestrante[]> GetPalestrantesByNomeAsync(string nome, bool includePalestrantes)
+        public async Task<Palestrante[]> GetPalestrantesByNomeAsync(string nome, bool includePalestrantes, bool tracked)
         {
             IQueryable<Palestrante> query = _db.Palestrantes
                 .Include(p => p.RedesSociais);
+            
+            if (!tracked)
+                query = query.AsNoTracking();
 
             if (includePalestrantes)
             {
@@ -44,10 +50,13 @@ namespace FireEvents.Data
             return await query.ToArrayAsync();
         }
 
-        public async Task<Palestrante> GetPalestranteByIdAsync(int id, bool includePalestrante)
+        public async Task<Palestrante> GetPalestranteByIdAsync(int id, bool includePalestrante, bool tracked)
         {
             IQueryable<Palestrante> query = _db.Palestrantes
                 .Include(p => p.RedesSociais);
+
+            if (!tracked)
+                query = query.AsNoTracking();
 
             if (includePalestrante)
             {

@@ -15,8 +15,7 @@ namespace FireEvents.Domain.Services
         {
             try
             {
-                await _eventoRepository.AddAsync(model);
-                if (await _eventoRepository.SaveAsync())
+                if (await _eventoRepository.AddAsync(model))
                 {
                     return await _eventoRepository.GetEventoByIdAsync(model.Id);
                 }
@@ -28,7 +27,7 @@ namespace FireEvents.Domain.Services
                 throw new Exception($@"Erro ao inserir novo evento: {ex.Message}");
             }
         }
-        public async Task<Evento?> UpdateEvento(Evento model)
+        public async Task<Evento?> UpdateEvento(int id, Evento model)
         {
             try
             {

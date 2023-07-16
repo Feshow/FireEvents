@@ -13,11 +13,14 @@ namespace FireEvents.Data
             _db = db;
         }
 
-        public async Task<IEnumerable<Evento>?> GetAllEventosAsync(bool includePalestrantes)
+        public async Task<IEnumerable<Evento>?> GetAllEventosAsync(bool includePalestrantes, bool tracked)
         {
             IQueryable<Evento> query = _db.Eventos
                 .Include(e => e.Lotes)
                 .Include(e => e.RedesSociais);
+
+            if (!tracked)            
+                query = query.AsNoTracking();            
 
             if (includePalestrantes)
             {
@@ -30,11 +33,15 @@ namespace FireEvents.Data
             return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Evento>?> GetEventosByTemaAsync(string tema, bool includePalestrantes)
+        public async Task<IEnumerable<Evento>?> GetEventosByTemaAsync(string tema, bool includePalestrantes, bool tracked)
         {
             IQueryable<Evento> query = _db.Eventos
                 .Include(e => e.Lotes)
                 .Include(e => e.RedesSociais);
+
+            if (!tracked)            
+                query = query.AsNoTracking();            
+
 
             if (includePalestrantes)
             {
@@ -43,15 +50,18 @@ namespace FireEvents.Data
                     .ThenInclude(p => p.Palestrante);
             }
 
-            query.OrderBy(e => e.Id).Where(e => e.Tema.ToLower().Contains(tema.ToLower()));
+            query.AsNoTracking().OrderBy(e => e.Id).Where(e => e.Tema.ToLower().Contains(tema.ToLower()));
             return await query.ToListAsync();
         }
 
-        public async Task<Evento?> GetEventoByIdAsync(int id, bool includePalestrantes)
+        public async Task<Evento?> GetEventoByIdAsync(int id, bool includePalestrantes, bool tracked)
         {
             IQueryable<Evento> query = _db.Eventos
                 .Include(e => e.Lotes)
                 .Include(e => e.RedesSociais);
+
+            if (!tracked)
+                query = query.AsNoTracking();
 
             if (includePalestrantes)
             {
@@ -60,8 +70,7 @@ namespace FireEvents.Data
                     .ThenInclude(p => p.Palestrante);
             }
 
-            query.OrderBy(e => e.Id).Where(e => e.Id == id);
-            return await query.FirstOrDefaultAsync();
+            return await query.AsNoTracking().OrderBy(e => e.Id).Where(e => e.Id == id).FirstOrDefaultAsync();
         }
     }
 }

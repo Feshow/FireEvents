@@ -5,7 +5,7 @@ namespace FireEvents.Domain.Interfaces.IServices
     public interface IEventoService
     {
         Task<Evento?> AddEvento(Evento model);
-        Task<Evento?> UpdateEvento(Evento model);
+        Task<Evento?> UpdateEvento(int id, Evento model);
         Task<bool> DeleteEvento(int eventoId);
         Task<IEnumerable<Evento>?> ObterEventosAsync(bool includePalestrantes = false);
         Task<Evento?> ObterEventoPorIdAsync(int idEvent, bool includePalestrantes = false);
